@@ -1,0 +1,75 @@
+package ${model}
+
+import (
+	"gin-web-template/common"
+	"gin-web-template/dto"
+	"gin-web-template/model"
+	"gin-web-template/service"
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+	"net/http"
+)
+
+func init() {
+	c := &${name}{}
+	c.init(common.R) //这里需要引入你的gin框架的实例
+}
+
+func (t ${name}) init(g *gin.Engine) {
+	// 依次: 分页列表，单条，插入，修改，删除
+	group := g.Group("/${path}")
+	group.GET("/list", t.list) //不设置限制条件的画默认查询所有
+	group.GET("/one", t.one)
+	group.POST("/insert", t.insert)
+	group.POST("/update", t.update)
+	group.POST("/delete", t.delete)
+}
+
+// ${name} 控制器
+type ${name} struct {
+	Page int   `form:"page"`
+	Size int   `form:"size"`
+	Ids  []int `form:"ids"`
+}
+
+func (t ${name}) db() *gorm.DB {
+	return common.Db
+}
+
+// 分页列表
+func (t ${name}) list(c *gin.Context) {
+	_ = c.Bind(&t)
+	v := ${entity}{}
+	_ = c.Bind(&v)
+	c.JSON(http.StatusOK, dto.OkData(${servicePath}.List(t.Page, t.Size, &v)))
+}
+
+// 根据主键Id查询记录
+func (t ${name}) one(c *gin.Context) {
+	var v ${entity}
+	_ = c.Bind(&v)
+	c.JSON(http.StatusOK, dto.OkData(${servicePath}.One(v.${id})))
+}
+
+// 修改记录
+func (t ${name}) update(c *gin.Context) {
+	var v ${entity}
+	_ = c.ShouldBindJSON(&v)
+	${servicePath}.Update(v)
+	c.JSON(http.StatusOK, dto.OkMsg("修改成功！"))
+}
+
+// 插入记录
+func (t ${name}) insert(c *gin.Context) {
+	var v ${entity}
+	_ = c.ShouldBindJSON(&v)
+	${servicePath}.Insert(v)
+	c.JSON(http.StatusOK, dto.OkMsg("插入成功！"))
+}
+
+// 根据主键删除
+func (t ${name}) delete(c *gin.Context) {
+	_ = c.Bind(&t)
+	${servicePath}.Delete(t.Ids)
+	c.JSON(http.StatusOK, dto.OkMsg("删除成功！"))
+}

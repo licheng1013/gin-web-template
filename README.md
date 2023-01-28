@@ -6,6 +6,13 @@
 - 跨域中间件
 - 异常中间件
 - 路由注册
+- Gorm插件模板和自定义示例
+- Mysql示例
 
 ## 启动项目
 - main.go
+- 需要创建数据库t_gorm并导入sql目录的t_gorm.sql文件
+- 然后修改common目录下mysql.go文件
+
+## 其他
+- gorm目录下为插件自定义模板示例
