@@ -16,3 +16,7 @@
 
 ## 其他
 - gorm目录下为插件自定义模板示例
+
+## 启动后访问
+- http://localhost:8088/admin/list?size=10
+- http://localhost:8088/admin/one?adminId=3
