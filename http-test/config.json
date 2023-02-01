@@ -1,0 +1,1 @@
+{"host":" http://localhost:8088/","requests":[{"desc":"","headers":[],"method":"GET","params":[{"desc":"","enable":true,"key":"page","type":"int","value":"1"},{"desc":"","enable":true,"key":"size","type":"int","value":"10"}],"path":"index","result":"{\"code\":0,\"msg\":\"\",\"data\":\"HelloWorld\"}","time":79}]}
