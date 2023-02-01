@@ -50,6 +50,10 @@ func (t IndexApi) err(c *gin.Context) {
 
 // 文件上传示例 -> image/upload_img.png -> 图片演示
 func (t IndexApi) upload(c *gin.Context) {
+
+	_ = c.ShouldBind(&t) //绑定表单参数示例,有时候上传文件会带点额外参数就需要这样做
+	log.Println(t)
+
 	// 单文件
 	file, _ := c.FormFile("file")
 	dst := "./" + file.Filename
