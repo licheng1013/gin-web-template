@@ -1,6 +1,6 @@
 # GinWebTemplate
 ## 介绍
-- 一个简单Gin框架Web模板
+- Gin框架学习演示
 
 ## 功能
 - 跨域中间件
