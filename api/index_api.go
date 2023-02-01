@@ -13,9 +13,10 @@ import (
 func init() {
 	api := IndexApi{}
 	group := common.R.Group("/index")
-	group.GET("", api.index)          // http://localhost:8088/index
-	group.GET("/err", api.err)        // http://localhost:8088/index/err
-	group.POST("/upload", api.upload) //
+	group.GET("", api.index)             // http://localhost:8088/index
+	group.GET("/err", api.err)           // http://localhost:8088/index/err
+	group.POST("/upload", api.upload)    // 相信聪明的你，已经知道如何后面如何使用了
+	group.Any("/download", api.download) //匹配多种方法 GET,POST 等
 }
 
 type IndexApi struct {
@@ -48,7 +49,7 @@ func (t IndexApi) err(c *gin.Context) {
 	panic(middleware.NewServiceError("测试异常"))
 }
 
-// 文件上传示例 -> image/upload_img.png -> 图片演示
+// 文件上传示例 -> image/upload_img.png -> 图片说明
 func (t IndexApi) upload(c *gin.Context) {
 
 	_ = c.ShouldBind(&t) //绑定表单参数示例,有时候上传文件会带点额外参数就需要这样做
@@ -63,4 +64,11 @@ func (t IndexApi) upload(c *gin.Context) {
 		panic(err)
 	}
 	c.JSON(http.StatusOK, dto.OkData(file.Filename)) //我们把名字返回回去
+}
+
+// 文件下载示例 -> http://localhost:8088/index/download?page=1
+func (t IndexApi) download(c *gin.Context) {
+	_ = c.ShouldBind(&t) //绑定表单参数示例,有时候下载文件会带点额外参数就需要这样做
+	log.Println(t)
+	c.FileAttachment("./README.md", "README.md")
 }
